@@ -1,5 +1,5 @@
 ContactsSinglePageApp::Application.routes.draw do
-  root 'contacts#main'
+  root 'contacts#new'
 
   resources :contacts
 end

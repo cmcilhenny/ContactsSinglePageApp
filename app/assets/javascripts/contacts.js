@@ -3,6 +3,8 @@ $(document).ready(function(){
  
   var contacts = [];
   var count = 0;
+
+  //implimenting Alpha choose. You can use ACSII numbers for letters and creat a look that 
  
   var deleteContact = function(event){
     console.log("Delete", this);
@@ -67,7 +69,7 @@ $(document).ready(function(){
                             "</div>",
                           "</div>"].join("");
  
-    console.log(contactString);
+    //console.log(contactString);
  
     $("#contacts").append(contactString);
   
@@ -80,14 +82,35 @@ $(document).ready(function(){
     event.preventDefault();
  
     //console.log(this);
- 
+    var form = $(this);
     var name = $("#contact_name").val();
     var email = $("#contact_email").val();
     var number = $("#contact_number").val();
     var imgUrl =  $("#contact_img_url").val();
  
-    console.log(name, email, number, imgUrl);
- 
+    //console.log(name, email, number, imgUrl);
+    //add ajax post
+    $.ajax({
+      url: '/contacts',
+      method: "POST",
+      data: {
+        "contact": {
+          "name": name,
+          "email": email,
+          "number": number,
+          "imgUrl": imgUrl
+        }
+      },
+      dataType: "json",
+      success: function(data) {
+        console.log(data);
+      },
+
+      error: function(data) {
+        console.log("Error: ");
+        console.log(data);
+      }
+    });
     // Reset the form
     this.reset();
  
@@ -104,6 +127,7 @@ $(document).ready(function(){
     contacts = _.sortBy(contacts, function(contact) {
       return contact.name;
     });
+
     $("#contacts").html('');
 
     // Call a function to add our contact to 
